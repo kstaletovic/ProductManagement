@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProductManagement.Application.Interfaces;
+using ProductManagement.Application.Services;
+using ProductManagement.Domain.Interfaces.Repositories;
+using ProductManagement.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +28,22 @@ namespace ProductManagement.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddDbContext<ProductManagementContext>(options =>
+            options.UseLazyLoadingProxies()
+                .UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            if (Configuration["DataSource"].Equals("db"))
+                services.AddScoped<IProductRepository, ProductRepositoryDb>();
+            else
+                services.AddScoped<IProductRepository, ProductRepositoryJson>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +70,7 @@ namespace ProductManagement.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=Index}/{id?}");
             });
         }
     }

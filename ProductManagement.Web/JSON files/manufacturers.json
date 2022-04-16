@@ -1,0 +1,18 @@
+[
+  {
+    "ManufacturerId": "1",
+    "ManufacturerName": "Genius"
+  },
+  {
+    "ManufacturerId": "2",
+    "ManufacturerName": "Sony"
+  },
+  {
+    "ManufacturerId": "3",
+    "ManufacturerName": "Samsung"
+  },
+  {
+    "ManufacturerId": "4",
+    "ManufacturerName": "Xiaomi"
+  }
+]

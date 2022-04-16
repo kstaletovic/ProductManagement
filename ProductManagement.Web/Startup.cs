@@ -33,16 +33,27 @@ namespace ProductManagement.Web
                 .UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             if (Configuration["DataSource"].Equals("db"))
+            {
                 services.AddScoped<IProductRepository, ProductRepositoryDb>();
+                services.AddScoped<ICategoryRepository, CategoryRepositoryDb>();
+                services.AddScoped<IManufacturerRepository, ManufacturerRepositoryDb>();
+                services.AddScoped<ISupplierRepository, SupplierRepositoryDb>();
+            }
             else
+            {
                 services.AddScoped<IProductRepository, ProductRepositoryJson>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IManufacturerRepository, ManufacturerRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+                services.AddScoped<ICategoryRepository, CategoryRepositoryJson>();
+                services.AddScoped<IManufacturerRepository, ManufacturerRepositoryJson>();
+                services.AddScoped<ISupplierRepository, SupplierRepositoryJson>();
+            }
+
             services.AddScoped<IProductService, ProductService>();
 
-            services.AddControllersWithViews()
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                })
                 .AddRazorRuntimeCompilation();
         }
 

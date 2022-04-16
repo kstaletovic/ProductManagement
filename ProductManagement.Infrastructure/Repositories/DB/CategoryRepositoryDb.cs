@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProductManagement.Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepositoryDb : ICategoryRepository
     {
         private readonly ProductManagementContext _context;
-        public CategoryRepository(ProductManagementContext context)
+        public CategoryRepositoryDb(ProductManagementContext context)
         {
             _context = context;
         }

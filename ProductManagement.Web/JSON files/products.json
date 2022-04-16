@@ -1,0 +1,83 @@
+[
+  {
+    "ProductId": 1,
+    "ProductName": "Samsung Galaxy S22",
+    "Description": "",
+    "Price": 100000.0,
+    "CategoryId": 1,
+    "ManufacturerId": 3,
+    "SupplierId": 1,
+    "Category": {
+      "CategoryId": 1,
+      "CategoryName": "Mobile devices",
+      "Products": [
+      ]
+    },
+    "Manufacturer": {
+      "ManufacturerId": 3,
+      "ManufacturerName": "Samsung",
+      "Products": [
+      ]
+    },
+    "Supplier": {
+      "SupplierId": 1,
+      "SupplierName": "Tehnomanija d.o.o",
+      "Products": [
+      ]
+    }
+  },
+  {
+    "ProductId": 2,
+    "ProductName": "MI 9",
+    "Description": "Great phone",
+    "Price": 40000.0,
+    "CategoryId": 1,
+    "ManufacturerId": 4,
+    "SupplierId": 2,
+    "Category": {
+      "CategoryId": 1,
+      "CategoryName": "Mobile devices",
+      "Products": [
+      ]
+    },
+    "Manufacturer": {
+      "ManufacturerId": 4,
+      "ManufacturerName": "Xiaomi",
+      "Products": [
+      ]
+    },
+    "Supplier": {
+      "SupplierId": 2,
+      "SupplierName": "Gigatron d.o.o",
+      "Products": [
+      ]
+    }
+  },
+  {
+    "ProductId": 3,
+    "ProductName": "Genius speakers SP HF",
+    "Description": "",
+    "Price": 6000.0,
+    "CategoryId": 2,
+    "ManufacturerId": 1,
+    "SupplierId": 1,
+    "Category": {
+      "CategoryId": 2,
+      "CategoryName": "Audio",
+      "Products": [
+      ]
+    },
+    "Manufacturer": {
+      "ManufacturerId": 1,
+      "ManufacturerName": "Genius",
+      "Products": [
+      ]
+    },
+    "Supplier": {
+      "SupplierId": 1,
+      "SupplierName": "Tehnomanija d.o.o",
+      "Products": [
+      ]
+    }
+  }
+]

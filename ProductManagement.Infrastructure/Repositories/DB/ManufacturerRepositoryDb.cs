@@ -6,10 +6,10 @@ using System.Text;
 
 namespace ProductManagement.Infrastructure.Repositories
 {
-    public class ManufacturerRepository : IManufacturerRepository
+    public class ManufacturerRepositoryDb : IManufacturerRepository
     {
         private readonly ProductManagementContext _context;
-        public ManufacturerRepository(ProductManagementContext context)
+        public ManufacturerRepositoryDb(ProductManagementContext context)
         {
             _context = context;
         }

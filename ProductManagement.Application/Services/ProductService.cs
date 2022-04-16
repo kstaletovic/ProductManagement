@@ -11,15 +11,21 @@ namespace ProductManagement.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public ProductService(IUnitOfWork unitOfWork)
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly ISupplierRepository _supplierRepository;
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IManufacturerRepository manufacturerRepository, ISupplierRepository supplierRepository)
         {
-            _unitOfWork = unitOfWork;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _manufacturerRepository = manufacturerRepository;
+            _supplierRepository = supplierRepository;
         }
 
         public IEnumerable<ProductDataTableVM> GetProductsForDataTable()
         {
-            return _unitOfWork.ProductRepository.GetProducts()
+            return _productRepository.GetProducts()
                 .Select(p => new ProductDataTableVM
                 {
                     ProductId = p.ProductId,
@@ -34,18 +40,18 @@ namespace ProductManagement.Application.Services
 
         public ProductCreateVM GetProductCreateVM()
         {
-            IEnumerable<Category> categories = _unitOfWork.CategoryRepository.GetCategories();
-            IEnumerable<Manufacturer> manufacturers = _unitOfWork.ManufacturerRepository.GetManufacturers();
-            IEnumerable<Supplier> suppliers = _unitOfWork.SupplierRepository.GetSuppliers();
+            IEnumerable<Category> categories = _categoryRepository.GetCategories();
+            IEnumerable<Manufacturer> manufacturers = _manufacturerRepository.GetManufacturers();
+            IEnumerable<Supplier> suppliers = _supplierRepository.GetSuppliers();
             return ProductCreateVM.ToViewModel(categories, manufacturers, suppliers);
         }
 
         public ProductEditVM GetProductEditVM(int productId)
         {
-            IEnumerable<Category> categories = _unitOfWork.CategoryRepository.GetCategories();
-            IEnumerable<Manufacturer> manufacturers = _unitOfWork.ManufacturerRepository.GetManufacturers();
-            IEnumerable<Supplier> suppliers = _unitOfWork.SupplierRepository.GetSuppliers();
-            Product product = _unitOfWork.ProductRepository.GetProductById(productId);
+            IEnumerable<Category> categories = _categoryRepository.GetCategories();
+            IEnumerable<Manufacturer> manufacturers = _manufacturerRepository.GetManufacturers();
+            IEnumerable<Supplier> suppliers = _supplierRepository.GetSuppliers();
+            Product product = _productRepository.GetProductById(productId);
             return ProductEditVM.ToViewModel(product, categories, manufacturers, suppliers);
         }
 
@@ -60,28 +66,25 @@ namespace ProductManagement.Application.Services
                 ManufacturerId = model.ManufacturerId,
                 SupplierId = model.SupplierId
             };
-            _unitOfWork.ProductRepository.InsertProduct(product);
-            _unitOfWork.Complete();
+            _productRepository.InsertProduct(product);
         }
 
         public void UpdateProduct(ProductEditVM model)
         {
-            Product product = _unitOfWork.ProductRepository.GetProductById(model.ProductId);
+            Product product = _productRepository.GetProductById(model.ProductId);
             product.ProductName = model.ProductName.Trim();
             product.Description = string.IsNullOrWhiteSpace(model.Description) ? string.Empty : model.Description.Trim();
             product.Price = model.Price;
             product.CategoryId = model.CategoryId;
             product.ManufacturerId = model.ManufacturerId;
             product.SupplierId = model.SupplierId;
-            _unitOfWork.ProductRepository.UpdateProduct(product);
-            _unitOfWork.Complete();
+            _productRepository.UpdateProduct(product);
         }
 
         public void DeleteProduct(int productId)
         {
-            Product product = _unitOfWork.ProductRepository.GetProductById(productId);
-            _unitOfWork.ProductRepository.DeleteProduct(product);
-            _unitOfWork.Complete();
+            Product product = _productRepository.GetProductById(productId);
+            _productRepository.DeleteProduct(product);
         }
     }
 }

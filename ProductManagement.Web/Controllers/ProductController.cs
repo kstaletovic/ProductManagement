@@ -7,6 +7,7 @@ using ProductManagement.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ProductManagement.Web.Controllers
@@ -43,12 +44,22 @@ namespace ProductManagement.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductCreateVM model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _productService.InsertProduct(model);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _productService.InsertProduct(model);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
+
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+                return View(model);
+            }
         }
 
         public ActionResult Edit(int id)
@@ -61,19 +72,38 @@ namespace ProductManagement.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductEditVM model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _productService.UpdateProduct(model);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _productService.UpdateProduct(model);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+                return View(model);
+            }
+
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            _productService.DeleteProduct(id);
-            return Ok();
+            try
+            {
+                _productService.DeleteProduct(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                _logger.LogError(ex.StackTrace);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

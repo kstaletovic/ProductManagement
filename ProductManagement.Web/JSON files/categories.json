@@ -1,0 +1,14 @@
+[
+  {
+    "CategoryId": "1",
+    "CategoryName": "Mobile devices"
+  },
+  {
+    "CategoryId": "2",
+    "CategoryName": "Audio"
+  },
+  {
+    "CategoryId": "3",
+    "CategoryName": "Tv and audio"
+  }
+]
